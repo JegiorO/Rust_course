@@ -1,25 +1,21 @@
+use std::collections::HashMap;
 use std::io;
 use simple_blog::Post;
 use simple_blog::Date;
 use simple_blog::Blog;
 
 fn main() {
-    let mut my_blog = Blog {
-        posts: Vec::new()
+    //initializing blog
+    let mut my_blog: Blog = Blog {
+        last_key: 0,
+        posts: HashMap::new()
     };
 
-    //My_blog.add_post(post);
-
-    //My_blog.show_posts();
-
+    //starting workflow
     blog_cycle(&mut my_blog);
-
-    match my_blog.find_by_id(2) {
-        Ok(post) => post.print_info(),
-        Err(e) => println!("{}", e)
-    }
 }
 
+//func to handle user input
 fn read_line() -> String {
     let mut input_text = String::new();
     io::stdin()
@@ -108,7 +104,6 @@ fn blog_cycle(blog: &mut Blog) {
                 }
             };
 
-
             let mut _author: String;
             println!("Author: ");
             _author = read_line();
@@ -124,12 +119,11 @@ fn blog_cycle(blog: &mut Blog) {
             _text = read_line();
             _text.pop();
 
-            let post = &mut Post {
+            let post = Post {
                 header: _header,
                 author: _author,
                 date: current_date,
                 posttext: _text,
-                id: 1
             };
             blog.add_post(post);
         }
